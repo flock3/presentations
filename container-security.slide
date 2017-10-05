@@ -1,0 +1,101 @@
+Container Security
+"The Super-cool new stuff you can do"
+6 Oct 2017
+Tags: containers, security
+
+Thomas Gray
+thomas.gray@infinityworks.com
+@topicus
+
+
+* Things to know
+
+I am totally not a security expert. Just a big fan.
+
+I spent 3 years working on writing PCI/DSS security scanning & audit software for NCC Group - Loads of it was crap
+
+* Basic concepts
+
+- Containerising does not automatically increase your security
+- Containerisation usually increasers your security scope
+
+* What we're going to cover
+
+What does containerisation take away?
+- Easy vulnerability scanning (mostly)
+- Easy action audits (ishly)
+- Easy offline investigation (kinda)
+
+What does containerisation really fuck with?
+- More opportunity for easier privilege escalation attacks
+- Shared remote resource attacks
+- Stopping internal DOS attacks
+- Internal networking
+
+Cool things you can do
+
+* Easy vulnerability scanning
+
+- Existing tooling is shagged (Nessus, SAINT, openVAS) = crap
+- Container layer scanning is crap
+- No dumb ways to verify container authority without hoops
+- *Content trust is a pain in the ass
+
+* Easy Action audits
+
+- Audit tools are expensive
+- Nobody has created tooling for this new paradigm
+- Keeping audit records on ephemeral services is hard
+
+* Easy offline investigation
+
+- You can manually look at the FS of a stopped docker container
+- Schedulers like Rancher run to remove stopped containers
+- Super easy to remove traces if you get root
+
+* Privilege escalation
+
+- Just too easy to run containers as the root user on a machine
+- Just too easy to mount the docker socket into a container and get root
+- Just too easy to run processes as root inside containers
+- Just too easy to run out-of-date software using image layering
+
+* Shared remote resource attacks
+
+- Take hi-life as example
+- *Shared EFS volume
+- *Across edge points & internal containers
+- *Spread across 3 subnets (AZ's)
+
+* Stopping internal DOS attacks
+
+Docker makes it a pain in the ass to stop resource attacks, but you can add resource flags like --memory=nnnnM and --cpus=n
+
+* Internal networking
+
+- Rancher "networking"
+- *Shared UDP network layer
+- *UNLIMITED COSMIC POWER
+- *Impossible to debug
+
+* Cool things you can do
+
+- Completely read-only containers, their only export is logs
+- True idempotence
+
+* os-less containers
+
+- FROM scratch
+- SSL = pain
+- No bash!
+
+* Docker bench security
+
+
+https://github.com/docker/docker-bench-security - Great tool to help you do basic hardening on a docker host
+
+* Conclusion
+
+- Loads of new challenges (and the re-birth of some old ones)
+- But some cool stuff that you now get for free
+
